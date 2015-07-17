@@ -21,6 +21,7 @@ import (
 	"github.com/docker/docker/pkg/archive"
 	"github.com/docker/docker/pkg/directory"
 	"github.com/docker/docker/pkg/ioutils"
+	"github.com/docker/docker/pkg/machine"
 	"github.com/docker/docker/pkg/nat"
 	"github.com/docker/docker/pkg/stringid"
 	"github.com/docker/docker/pkg/system"
@@ -1119,4 +1120,18 @@ func (container *Container) PrepareStorage() error {
 
 func (container *Container) CleanupStorage() error {
 	return nil
+}
+
+/*
+Register Machine with process manager.  There is a potential race condition here
+where the container could have exited before the call gets made.  This
+call requires the container.Pid.  Therefore we just log the situation
+rather then fail the container
+*/
+func (container *Container) registerMachine() {
+	return machine.Register(container.Name[1:], container.ID, container.Pid, "/")
+}
+
+func (container *Container) terminateMachine() {
+	machine.Terminate(container.Name[1:])
 }
