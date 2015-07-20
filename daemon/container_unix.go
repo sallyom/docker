@@ -28,12 +28,12 @@ import (
 	"github.com/docker/docker/pkg/ulimit"
 	"github.com/docker/docker/runconfig"
 	"github.com/docker/docker/utils"
-	"github.com/docker/libcontainer/configs"
-	"github.com/docker/libcontainer/devices"
 	"github.com/docker/libnetwork"
 	"github.com/docker/libnetwork/netlabel"
 	"github.com/docker/libnetwork/options"
 	"github.com/docker/libnetwork/types"
+	"github.com/opencontainers/runc/libcontainer/configs"
+	"github.com/opencontainers/runc/libcontainer/devices"
 )
 
 const DefaultPathEnv = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
@@ -1128,7 +1128,7 @@ where the container could have exited before the call gets made.  This
 call requires the container.Pid.  Therefore we just log the situation
 rather then fail the container
 */
-func (container *Container) registerMachine() {
+func (container *Container) registerMachine() error {
 	return machine.Register(container.Name[1:], container.ID, container.Pid, "/")
 }
 
