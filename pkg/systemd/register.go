@@ -32,7 +32,7 @@ func RegisterMachine(name string, id string, pid int, root_directory string) err
 	}
 
 	obj := conn.Object("org.freedesktop.machine1", "/org/freedesktop/machine1")
-	return obj.Call("org.freedesktop.machine1.Manager.RegisterMachine", 0, name, av, "docker", "container", uint32(pid), root_directory).Err
+	return obj.Call("org.freedesktop.machine1.Manager.RegisterMachine", 0, name[0:64], av, "docker", "container", uint32(pid), root_directory).Err
 }
 
 // TerminateMachine registered with systemd on the host system
