@@ -263,7 +263,7 @@ func (container *Container) Start() (err error) {
 			container.setError(err)
 			// if no one else has set it, make sure we don't leave it at zero
 			if container.ExitCode == 0 {
-				container.ExitCode = 128
+				container.ExitCode = 125
 			}
 			container.toDisk()
 			container.cleanup()

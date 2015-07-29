@@ -370,6 +370,7 @@ running the `redis-cli` command and connecting to the Redis server over the
     $ docker run --rm -it --net container:redis example/redis-cli -h 127.0.0.1
 
 #### User-defined network
+<<<<<<< 6c5279ef5d98e07a7cefeaac42413fa2cf8a74d6
 
 You can create a network using a Docker network driver or an external network
 driver plugin. You can connect multiple containers to the same network. Once
@@ -380,6 +381,18 @@ For `overlay` networks or custom plugins that support multi-host connectivity,
 containers connected to the same multi-host network but launched from different
 Engines can also communicate in this way.
 
+=======
+
+You can create a network using a Docker network driver or an external network
+driver plugin. You can connect multiple containers to the same network. Once
+connected to a user-defined network, the containers can communicate easily using
+only another container's IP address or name.  
+
+For `overlay` networks or custom plugins that support multi-host connectivity,
+containers connected to the same multi-host network but launched from different
+Engines can also communicate in this way.
+
+>>>>>>> docs
 The following example creates a network using the built-in `bridge` network
 driver and running a container in the created network
 
@@ -502,6 +515,29 @@ Or, to get the last time the container was (re)started;
 You cannot set any restart policy in combination with
 ["clean up (--rm)"](#clean-up-rm). Setting both `--restart` and `--rm`
 results in an error.
+
+### Exit Status
+
+A non-zero exit code of a container will give information about why the container
+exited.  When a container exits with non-zero because of an error from the contained command, the exit codes follow the `chroot` exit code standard:
+
+```
+Exit status:
+
+125 if `docker daemon` itself fails
+126 if COMMAND is found but cannot be invoked
+127 if COMMAND cannot be found
+the exit status of COMMAND otherwise
+```
+    
+    $ docker run --foo busybox; echo $?
+    # 125
+    $ docker run busybox /etc; echo $?
+    # 126 
+    $ docker run busybox foo; echo $?
+    # 127
+    $ docker run busybox /bin/sh -c 'exit3'; echo $?
+    # 3
 
 ### Examples
 
