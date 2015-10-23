@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os/exec"
+	"regexp"
 	"strings"
 
 	"github.com/go-check/check"
@@ -11,16 +12,40 @@ import (
 func (s *DockerSuite) TestRmiWithContainerFails(c *check.C) {
 	testRequires(c, DaemonIsLinux)
 	errSubstr := "is using it"
+	imageName := regexp.MustCompile(`(?m)^([^/ ]+/busybox)\s+`)
+
+	// remove any fully-qualified busybox images created by prior tests
+	out, _, err := runCommandWithOutput(exec.Command(dockerBinary, "images"))
+	if err != nil {
+		c.Fatalf("failed to list images: %v", err)
+	}
+	args := []string{"rmi", "-f"}
+	for _, name := range imageName.FindAllStringSubmatch(out, -1) {
+		args = append(args, name[1])
+	}
+	if len(args) > 2 {
+		rmiCmd := exec.Command(dockerBinary, args...)
+		if out, _, err = runCommandWithOutput(rmiCmd); err != nil {
+			c.Errorf("failed to remove all fully-qualified busybox images: %s, %v", out, err)
+		}
+	}
 
 	// create a container
+<<<<<<< HEAD
 	out, _, err := dockerCmdWithError("run", "-d", "busybox", "true")
 	if err != nil {
 		c.Fatalf("failed to create a container: %s, %v", out, err)
 	}
+||||||| parent of ac4b300... Add --add-registry and --block-registry options to docker daemon
+	out, _ := dockerCmd(c, "run", "-d", "busybox", "true")
+=======
+	out, _ = dockerCmd(c, "run", "-d", "busybox", "true")
+>>>>>>> ac4b300... Add --add-registry and --block-registry options to docker daemon
 
 	cleanedContainerID := strings.TrimSpace(out)
 
 	// try to delete the image
+<<<<<<< HEAD
 	out, _, err = dockerCmdWithError("rmi", "busybox")
 	if err == nil {
 		c.Fatalf("Container %q is using image, should not be able to rmi: %q", cleanedContainerID, out)
@@ -28,6 +53,19 @@ func (s *DockerSuite) TestRmiWithContainerFails(c *check.C) {
 	if !strings.Contains(out, errSubstr) {
 		c.Fatalf("Container %q is using image, error message should contain %q: %v", cleanedContainerID, errSubstr, out)
 	}
+||||||| parent of ac4b300... Add --add-registry and --block-registry options to docker daemon
+	out, _, err := dockerCmdWithError("rmi", "busybox")
+	// Container is using image, should not be able to rmi
+	c.Assert(err, checker.NotNil)
+	// Container is using image, error message should contain errSubstr
+	c.Assert(out, checker.Contains, errSubstr, check.Commentf("Container: %q", cleanedContainerID))
+=======
+	out, _, err = dockerCmdWithError("rmi", "busybox")
+	// Container is using image, should not be able to rmi
+	c.Assert(err, checker.NotNil)
+	// Container is using image, error message should contain errSubstr
+	c.Assert(out, checker.Contains, errSubstr, check.Commentf("Container: %q", cleanedContainerID))
+>>>>>>> ac4b300... Add --add-registry and --block-registry options to docker daemon
 
 	// make sure it didn't delete the busybox name
 	images, _ := dockerCmd(c, "images")
