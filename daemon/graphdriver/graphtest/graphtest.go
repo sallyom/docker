@@ -175,7 +175,7 @@ func DriverTestCreateEmpty(t *testing.T, drivername string) {
 	driver := GetDriver(t, drivername)
 	defer PutDriver(t)
 
-	if err := driver.Create("empty", ""); err != nil {
+	if err := driver.Create("empty", "", ""); err != nil {
 		t.Fatal(err)
 	}
 
@@ -213,7 +213,7 @@ func createBase(t *testing.T, driver graphdriver.Driver, name string) {
 	oldmask := syscall.Umask(0)
 	defer syscall.Umask(oldmask)
 
-	if err := driver.Create(name, ""); err != nil {
+	if err := driver.Create(name, "", ""); err != nil {
 		t.Fatal(err)
 	}
 
@@ -281,7 +281,7 @@ func DriverTestCreateSnap(t *testing.T, drivername string) {
 
 	createBase(t, driver, "Base")
 
-	if err := driver.Create("Snap", "Base"); err != nil {
+	if err := driver.Create("Snap", "Base", ""); err != nil {
 		t.Fatal(err)
 	}
 
