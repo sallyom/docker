@@ -148,7 +148,7 @@ func (s *DockerTrustSuite) TestTrustedPush(c *check.C) {
 func (s *DockerTrustSuite) TestTrustedPushWithEnvPasswords(c *check.C) {
 	repoName := fmt.Sprintf("%v/dockercli/trusted:latest", privateRegistryURL)
 	// tag the image and upload it to the private registry
-	dockerCmd(c, "tag", "busybox", repoName)
+	dockerCmd(c, "tag", "-f", "busybox", repoName)
 
 	pushCmd := exec.Command(dockerBinary, "push", repoName)
 	s.trustedCmdWithPassphrases(pushCmd, "12345678", "12345678")
@@ -182,7 +182,7 @@ func (s *DockerTrustSuite) TestTrustedPushWithDeprecatedEnvPasswords(c *check.C)
 func (s *DockerTrustSuite) TestTrustedPushWithFaillingServer(c *check.C) {
 	repoName := fmt.Sprintf("%v/dockercli/trusted:latest", privateRegistryURL)
 	// tag the image and upload it to the private registry
-	dockerCmd(c, "tag", "busybox", repoName)
+	dockerCmd(c, "tag", "-f", "busybox", repoName)
 
 	pushCmd := exec.Command(dockerBinary, "push", repoName)
 	s.trustedCmdWithServer(pushCmd, "https://example.com:81/")
@@ -199,7 +199,7 @@ func (s *DockerTrustSuite) TestTrustedPushWithFaillingServer(c *check.C) {
 func (s *DockerTrustSuite) TestTrustedPushWithoutServerAndUntrusted(c *check.C) {
 	repoName := fmt.Sprintf("%v/dockercli/trusted:latest", privateRegistryURL)
 	// tag the image and upload it to the private registry
-	dockerCmd(c, "tag", "busybox", repoName)
+	dockerCmd(c, "tag", "-f", "busybox", repoName)
 
 	pushCmd := exec.Command(dockerBinary, "push", "--disable-content-trust", repoName)
 	s.trustedCmdWithServer(pushCmd, "https://example.com/")
@@ -216,7 +216,7 @@ func (s *DockerTrustSuite) TestTrustedPushWithoutServerAndUntrusted(c *check.C) 
 func (s *DockerTrustSuite) TestTrustedPushWithExistingTag(c *check.C) {
 	repoName := fmt.Sprintf("%v/dockercli/trusted:latest", privateRegistryURL)
 	// tag the image and upload it to the private registry
-	dockerCmd(c, "tag", "busybox", repoName)
+	dockerCmd(c, "tag", "-f", "busybox", repoName)
 	dockerCmd(c, "push", repoName)
 
 	pushCmd := exec.Command(dockerBinary, "push", repoName)

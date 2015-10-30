@@ -2988,7 +2988,7 @@ func (s *DockerTrustSuite) TestUntrustedRun(c *check.C) {
 	testRequires(c, DaemonIsLinux)
 	repoName := fmt.Sprintf("%v/dockercli/trusted:latest", privateRegistryURL)
 	// tag the image and upload it to the private registry
-	dockerCmd(c, "tag", "busybox", repoName)
+	dockerCmd(c, "tag", "-f", "busybox", repoName)
 	dockerCmd(c, "push", repoName)
 	dockerCmd(c, "rmi", repoName)
 
