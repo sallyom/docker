@@ -522,25 +522,25 @@ restart the container. Providing a maximum restart limit is only valid for the
 
 The exit code from `docker run` will give information about why the container
 failed to run or why it exited.  When `docker run` exits with non-zero,
-the exit codes follow the `chroot` exit code standard:
+the exit codes follow the `chroot` exit code standard, see below:
 
-    Exit status:
+#### Exit codes:
 
-    125 if the error is with **Docker daemon** itself 
-    126 if **contained command** is found but cannot be invoked
-    127 if **contained command** cannot be found
-    the exit status of **contained command** otherwise
+    125 if the error is with DOCKER DAEMON itself 
+    $ docker run --foo busybox 
 
-### Examples
 
-    $ docker run --foo busybox; echo $?
-    # 125
-    $ docker run busybox /etc; echo $?
-    # 126
-    $ docker run busybox foo; echo $?
-    # 127
-    $ docker run busybox /bin/sh -c 'exit3'; echo $?
-    # 3
+    126 if CONTAINED COMMAND is found but cannot be invoked 
+    $ docker run busybox /etc
+    
+    
+    127 if CONTAINED COMMAND cannot be found 
+    $ docker run busybox foo
+    
+    
+    the exit status of CONTAINED COMMAND otherwise 
+    $ docker run busybox /bin/sh -c 'exit 3' 
+    (exit code 3)
 
 ## Clean up (--rm)
 
