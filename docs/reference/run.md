@@ -370,7 +370,6 @@ running the `redis-cli` command and connecting to the Redis server over the
     $ docker run --rm -it --net container:redis example/redis-cli -h 127.0.0.1
 
 #### User-defined network
-<<<<<<< 6c5279ef5d98e07a7cefeaac42413fa2cf8a74d6
 
 You can create a network using a Docker network driver or an external network
 driver plugin. You can connect multiple containers to the same network. Once
@@ -381,18 +380,6 @@ For `overlay` networks or custom plugins that support multi-host connectivity,
 containers connected to the same multi-host network but launched from different
 Engines can also communicate in this way.
 
-=======
-
-You can create a network using a Docker network driver or an external network
-driver plugin. You can connect multiple containers to the same network. Once
-connected to a user-defined network, the containers can communicate easily using
-only another container's IP address or name.  
-
-For `overlay` networks or custom plugins that support multi-host connectivity,
-containers connected to the same multi-host network but launched from different
-Engines can also communicate in this way.
-
->>>>>>> docs
 The following example creates a network using the built-in `bridge` network
 driver and running a container in the created network
 
