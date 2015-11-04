@@ -503,28 +503,6 @@ You cannot set any restart policy in combination with
 ["clean up (--rm)"](#clean-up-rm). Setting both `--restart` and `--rm`
 results in an error.
 
-## Exit Status
-
-The exit code from `docker run` will give information about why the container failed to run or why it exited.  When `docker run` exits with non-zero, the exit codes follow the `chroot` exit code standard:
-
-```
-Exit status:
-
-125 if DOCKER DAEMON itself fails
-126 if CONTAINED COMMAND is found but cannot be invoked
-127 if CONTAINED COMMAND cannot be found
-the exit status of CONTAINED COMMAND otherwise
-```
-    
-    $ docker run --foo busybox; echo $?
-    # 125
-    $ docker run busybox /etc; echo $?
-    # 126 
-    $ docker run busybox foo; echo $?
-    # 127
-    $ docker run busybox /bin/sh -c 'exit3'; echo $?
-    # 3
-
 ### Examples
 
     $ docker run --restart=always redis
@@ -539,6 +517,30 @@ and a maximum restart count of 10.  If the `redis` container exits with a
 non-zero exit status more than 10 times in a row Docker will abort trying to
 restart the container. Providing a maximum restart limit is only valid for the
 **on-failure** policy.
+
+## Exit Status
+
+The exit code from `docker run` will give information about why the container
+failed to run or why it exited.  When `docker run` exits with non-zero,
+the exit codes follow the `chroot` exit code standard:
+
+```
+Exit status:
+
+125 if the error is with **_Docker daemon_** itself 
+126 if **_contained command_** is found but cannot be invoked
+127 if **_contained command_** cannot be found
+the exit status of **_contained command_** otherwise
+```
+
+    $ docker run --foo busybox; echo $?
+    # 125
+    $ docker run busybox /etc; echo $?
+    # 126
+    $ docker run busybox foo; echo $?
+    # 127
+    $ docker run busybox /bin/sh -c 'exit3'; echo $?
+    # 3
 
 ## Clean up (--rm)
 
