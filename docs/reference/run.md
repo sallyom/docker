@@ -524,14 +524,12 @@ The exit code from `docker run` will give information about why the container
 failed to run or why it exited.  When `docker run` exits with non-zero,
 the exit codes follow the `chroot` exit code standard:
 
-```
-Exit status:
+    Exit status:
 
-125 if the error is with **_Docker daemon_** itself 
-126 if **_contained command_** is found but cannot be invoked
-127 if **_contained command_** cannot be found
-the exit status of **_contained command_** otherwise
-```
+    125 if the error is with **_Docker daemon_** itself 
+    126 if **_contained command_** is found but cannot be invoked
+    127 if **_contained command_** cannot be found
+    the exit status of **_contained command_** otherwise
 
     $ docker run --foo busybox; echo $?
     # 125
