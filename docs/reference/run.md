@@ -531,6 +531,8 @@ the exit codes follow the `chroot` exit code standard:
     127 if **contained command** cannot be found
     the exit status of **contained command** otherwise
 
+### Examples
+
     $ docker run --foo busybox; echo $?
     # 125
     $ docker run busybox /etc; echo $?
