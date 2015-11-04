@@ -516,18 +516,17 @@ You cannot set any restart policy in combination with
 ["clean up (--rm)"](#clean-up-rm). Setting both `--restart` and `--rm`
 results in an error.
 
-### Exit Status
+## Exit Status
 
-A non-zero exit code of a container will give information about why the container
-exited.  When a container exits with non-zero because of an error from the contained command, the exit codes follow the `chroot` exit code standard:
+The exit code from `docker run` will give information about why the container failed to run or why it exited.  When `docker run` exits with non-zero, the exit codes follow the `chroot` exit code standard:
 
 ```
 Exit status:
 
-125 if `docker daemon` itself fails
-126 if COMMAND is found but cannot be invoked
-127 if COMMAND cannot be found
-the exit status of COMMAND otherwise
+125 if DOCKER DAEMON itself fails
+126 if CONTAINED COMMAND is found but cannot be invoked
+127 if CONTAINED COMMAND cannot be found
+the exit status of CONTAINED COMMAND otherwise
 ```
     
     $ docker run --foo busybox; echo $?
