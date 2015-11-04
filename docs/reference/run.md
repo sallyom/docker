@@ -526,10 +526,10 @@ the exit codes follow the `chroot` exit code standard:
 
     Exit status:
 
-    125 if the error is with **_Docker daemon_** itself 
-    126 if **_contained command_** is found but cannot be invoked
-    127 if **_contained command_** cannot be found
-    the exit status of **_contained command_** otherwise
+    125 if the error is with **Docker daemon** itself 
+    126 if **contained command** is found but cannot be invoked
+    127 if **contained command** cannot be found
+    the exit status of **contained command** otherwise
 
     $ docker run --foo busybox; echo $?
     # 125
