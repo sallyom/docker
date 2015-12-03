@@ -142,6 +142,13 @@ func (daemon *Daemon) containerStart(container *Container) (err error) {
 	mounts = append(mounts, container.tmpfsMounts()...)
 
 	container.command.Mounts = mounts
+
+	jsonPath, err := container.jsonPath()
+	if err != nil {
+		return err
+	}
+	container.command.ContainerJSONPath = jsonPath
+
 	if err := daemon.waitForStart(container); err != nil {
 		return err
 	}
